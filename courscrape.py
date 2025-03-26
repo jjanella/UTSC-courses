@@ -8,7 +8,7 @@ import sys
 def na(css_class):
     return css_class is None
 
-def prereqs(code: str):
+def get_prereqs(code: str):
     site = requests.get("https://utsc.calendar.utoronto.ca/course/" + code + "H3")
     soup = BeautifulSoup(site.content, 'html.parser')
     reqs = str(soup.find_all('div', class_=['w3-bar-item field__item'])[0])
