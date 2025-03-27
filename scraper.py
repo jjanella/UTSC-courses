@@ -9,6 +9,8 @@ class Course:
     desc: str
     url: str
     sameas: list = []
+    exclusions: list = []
+    breadth: str
     prereqs: list = []
     def __init__(self, code: str, courses: list):
         scrape_course(self, code, courses)
@@ -22,6 +24,8 @@ class Program:
     level: str
     stream: str = ""
     courses: list[Course] = []
+    section: str = ""
+    
 
 
 def get_soup(url: str):
@@ -40,22 +44,15 @@ def scrape_programs(programs: list[Program], courses: list[Course]) -> list[Prog
         if title.count("-") > 1:
             prog = Program()
             prog.url = soup[i][soup[i].find("href=") + 6:soup[i].find(">") - 1]
-
-            title = title.replace(u'\xa0', u' ')
-            title = title.replace("&amp;", "&")
-            title = title.split(" - ")
-            prog.name = title[0]
-            prog.level = title[-1]
-            if len(title) == 3:
-                prog.stream = title[1]
-
-            if prog.level[:-5] == "Co-op":
-                prog.coop = True
             
             programs.append(prog)
     
     for program in programs:
-        scrape_program(program, courses)
+        try:
+            scrape_program(program, courses)
+
+        except:
+            programs.remove(program)
     
 
 
@@ -64,9 +61,56 @@ def scrape_program(program: Program, courses: list[Course]):
     soup = get_soup(program.url)
     code = str(soup.find_all("h1", class_="page-title"))
     program.code = code[code.find(" - ") + 3:code.find("</")]
-    print("Scraping Program " + program.code + " " + program.name + " " + program.level)
 
-    soup = soup.find_all("a", href=re.compile("\/course\/"))
+    title = str(soup.find("span", string = re.compile("PROGRAM")))
+    title = title[6:-7]
+    title = title.replace(u'\xa0', u' ')
+    if " - " not in title:
+        raise()
+
+    title = title.split(" ")
+    program.level = title[0]
+    title.pop(0)
+    program.code = title[-1]
+    title.pop(-1)
+    title.pop(-1)
+    
+    if title[0] == "(CO-OPERATIVE)":
+        program.coop == True
+        title.pop(0)
+    
+    title = title[2:]
+
+    if title[-1] == "(ARTS)":
+        program.section = "ARTS"
+        title.pop(-1)
+    elif title[-1] == "(SCIENCE)":
+        program.section = "SCIENCE"
+        title.pop(-1)
+    else:
+        program.section = "BACHELOR OF BUSINESS ADMINISTRATION"
+        title = title[:-4]
+
+    title = " ".join(title)
+    title = title.split(" - ")
+
+    program.name = title[0]
+    if len(title) > 1:
+        program.stream = title[1][:-7]
+    
+
+
+            # title = title.replace("&amp;", "&")
+            # title = title.split(" - ")
+            # prog.name = title[0]
+            # prog.level = title[-1]
+            # if len(title) == 3:
+            #     prog.stream = title[1]
+
+            # if prog.level[:-5] == "Co-op":
+            #     prog.coop = True
+
+    soup = soup.find_all("a", href=re.compile("/course/"))
 
     for i in range(len(soup)):
         soup[i] = str(soup[i])
@@ -92,6 +136,8 @@ def scrape_program(program: Program, courses: list[Course]):
 
 
 def scrape_course(course: Course, code: str, courses: list[Course]):
+
+
     course.code = code
     course.url = "https://utsc.calendar.utoronto.ca/course/" + code + "H3"
 
@@ -106,32 +152,60 @@ def scrape_course(course: Course, code: str, courses: list[Course]):
         raise()
     print("Found Course " + course.code + " " + course.name)
 
-    reqs = str(soup.find_all('div', class_=['w3-bar-item field__item'])[0])
 
-    while reqs.find("<") != -1:
-        start = reqs.index("<")
-        end = reqs.index(">")
-        reqs = reqs[0:start] + reqs[end+1:]
-    
-    reqs = reqs.removesuffix(" and [CGPA 3.5 or enrolment in a CSC Subject POSt]")
+    prereqs = soup.find_all('div', class_="w3-row field field--name-field-prerequisite field--type-text-long field--label-inline clearfix")
 
-    reqs = reqs.replace("or", "and")
-    reqs = reqs.replace("[", "")
-    reqs = reqs.replace("]", "")
-    reqs = reqs.replace("H3", "")
-    reqs = reqs.split(" and ")
-    for i in range(len(reqs) - 1, -1, -1):
-        if len(reqs[i]) != 6 or reqs[i].find("(") != -1:
-            reqs.pop(i)
-    
-    for req in reqs:
-        course.prereqs.append(Course(req, courses))
+    for prereq in prereqs:
+        if "Prerequisite</label>" in str(prereq):
+            # print(str(relation))
+            # print(str(relation))
 
+            reqs = str(prereq.find_all('div', class_=['w3-bar-item field__item']))
+
+            while reqs.find("<") != -1:
+                start = reqs.index("<")
+                end = reqs.index(">")
+                reqs = reqs[0:start] + reqs[end+1:]
+            
+            reqs = reqs.removesuffix(" and [CGPA 3.5 or enrolment in a CSC Subject POSt]")
+
+            reqs = reqs.replace("or", "and")
+            reqs = reqs.replace("[", "")
+            reqs = reqs.replace("]", "")
+            reqs = reqs.replace("H3", "")
+            reqs = reqs.split(" and ")
+            for i in range(len(reqs) - 1, -1, -1):
+                if len(reqs[i]) != 6 or reqs[i].find("(") != -1:
+                    reqs.pop(i)
+            
+            add = True
+            for req in reqs:
+                for course in courses:
+                    if course.code == req:
+                        add = False
+                        break
+                if add:
+                    course.prereqs.append(Course(req, courses))
+
+    exclusions = soup.find_all("div", class_="w3-row field field--name-field-exclusion field--type-text-long field--label-inline clearfix")
+
+    for exclusion in exclusions:
+        if "Exclusion" in str(exclusion):
+            print(str(exclusion))
+
+            exls = str(exclusion.find_all('div', class_=['w3-bar-item field__item']))
+
+            while exls.find("<") != -1:
+                start = exls.index("<")
+                end = exls.index(">")
+                exls = exls[0:start] + exls[end+1:]
 
 
 
 if __name__ == "__main__":
+    # print(Course("BIOA11", []).prereqs)
     programs: list[Program] = []
     courses: list[Course] = []
     scrape_programs(programs, courses)
+
 
