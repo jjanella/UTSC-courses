@@ -16,21 +16,18 @@ class Course:
     prereqs_str: str = ""
     excl: list
     breadth: str
-    def __init__(self):
-        pass
-        
         
 
 class Program:
     name: str
     code: str
-    coop: bool = False
+    coop: bool
     url: str
     level: str
     stream: str = ""
     courses: list[Course] = []
-    def __init__(self):
-        pass
+    section: str = ""
+    
 
 
 def get_soup(url: str):
@@ -49,39 +46,73 @@ def scrape_programs(programs: list[Program], courses: list[Course]) -> list[Prog
         if title.count("-") > 1:
             prog = Program()
             prog.url = soup[i][soup[i].find("href=") + 6:soup[i].find(">") - 1]
-
-            title = title.replace(u'\xa0', u' ')
-            title = title.replace("&amp;", "&")
-            title = title.split(" - ")
-            prog.name = title[0]
-            prog.level = title[-1]
-            if len(title) == 3:
-                prog.stream = title[1]
-
-            if prog.level[:-5] == "Co-op":
-                prog.coop = True
             
             programs.append(prog)
     
     for program in programs:
-        scrape_program(program, courses)
+        try:
+            scrape_program(program, courses)
+        except:
+            programs.remove(program)
     
 
 
 
 def scrape_program(program: Program, courses: list[Course]):
+    program.courses = []
     soup = get_soup(program.url)
     code = str(soup.find_all("h1", class_="page-title"))
     program.code = code[code.find(" - ") + 3:code.find("</")]
-    print("Scraping Program " + program.code + " " + program.name + " " + program.level)
+
+    title = str(soup.find("span", string = re.compile("PROGRAM")))
+    title = title[6:-7]
+    title = title.replace(u'\xa0', u' ')
+    if " - " not in title:
+        raise()
+
+    title = title.split(" ")
+    program.level = title[0]
+    title.pop(0)
+    program.code = title[-1]
+    title.pop(-1)
+    title.pop(-1)
+    
+    if title[0] == "(CO-OPERATIVE)":
+        program.coop = True
+        title.pop(0)
+    else:
+        program.coop = False
+    
+    
+    title = title[2:]
+
+    if title[-1] == "(ARTS)":
+        program.section = "ARTS"
+        title.pop(-1)
+    elif title[-1] == "(SCIENCE)":
+        program.section = "SCIENCE"
+        title.pop(-1)
+    else:
+        program.section = "BACHELOR OF BUSINESS ADMINISTRATION"
+        title = title[:-4]
+
+    title = " ".join(title)
+    title = title.split(" - ")
+
+    program.name = title[0]
+    if len(title) > 1:
+        program.stream = title[1][:-7]
 
     soup = soup.find_all("a", href=re.compile("/course/"))
+
+
 
     for i in range(len(soup)):
         soup[i] = str(soup[i])
         code = soup[i][soup[i].find("/course/") + 8: soup[i].find("\">") - 0]
 
-        new_course(code, courses)
+        program.courses.append(new_course(code, courses))
+    
 
 def is_code(s: str) -> bool:
     return len(s) == 8 and s[4:6].isdigit() and s[:4].isalpha() and s.endswith("H3")
@@ -140,15 +171,15 @@ def new_course(code: str, courses: list[Course]) -> Course:
     if s != None:
         course.breadth = s.get_text().strip().replace("\n", " ").removeprefix("Breadth Requirements").strip()
     
-    print(course.code)
-    print(course.excl)
     return course
     
 
 
 
 if __name__ == "__main__":
+    # print(Course("BIOA11", []).prereqs)
     programs: list[Program] = []
     courses: list[Course] = []
     scrape_programs(programs, courses)
+
 
