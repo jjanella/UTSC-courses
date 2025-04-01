@@ -148,6 +148,8 @@
    "coop": true,
    "courses": [
     "BIOA11H3",
+    "BIOA11H3",
+    "MATA02H3",
     "MATA02H3",
     "COPB50H3",
     "COPB51H3",
@@ -234,6 +236,8 @@
    "coop": true,
    "courses": [
     "BIOA11H3",
+    "BIOA11H3",
+    "MATA02H3",
     "MATA02H3",
     "COPB50H3",
     "COPB51H3",
@@ -1652,6 +1656,8 @@
    "coop": true,
    "courses": [
     "ANTA01H3",
+    "ANTA01H3",
+    "ANTA02H3",
     "ANTA02H3",
     "COPB50H3",
     "COPB51H3",
@@ -2375,7 +2381,7 @@
    "level": "MAJOR",
    "name": "MEDIA AND COMMUNICATION STUDIES",
    "section": "ARTS",
-   "stream": "Journalism Studies",
+   "stream": "JOURNALISM STUDIES",
    "url": "https://utsc.calendar.utoronto.ca/major-program-media-and-communication-studies-journalism-studies-stream-arts-scmajjss2"
   },
   "SCMAJMSS2": {
@@ -2402,7 +2408,7 @@
    "level": "MAJOR",
    "name": "MEDIA AND COMMUNICATION STUDIES",
    "section": "ARTS",
-   "stream": "Media Studies",
+   "stream": "MEDIA STUDIES",
    "url": "https://utsc.calendar.utoronto.ca/major-program-media-and-communication-studies-media-studies-stream-arts-scmajmss2"
   },
   "SCMAJNME": {
@@ -3681,6 +3687,8 @@
    "coop": true,
    "courses": [
     "BIOA11H3",
+    "BIOA11H3",
+    "MATA02H3",
     "MATA02H3",
     "COPB50H3",
     "COPB51H3",
@@ -4113,7 +4121,7 @@
    "level": "SPECIALIST",
    "name": "COMPUTER SCIENCE",
    "section": "SCIENCE",
-   "stream": "Information Systems",
+   "stream": "INFORMATION SYSTEMS",
    "url": "https://utsc.calendar.utoronto.ca/specialist-program-computer-science-information-systems-stream-science-scspe0455"
   },
   "SCSPE0455C": {
@@ -4134,7 +4142,7 @@
    "level": "SPECIALIST",
    "name": "COMPUTER SCIENCE",
    "section": "SCIENCE",
-   "stream": "Information Systems",
+   "stream": "INFORMATION SYSTEMS",
    "url": "https://utsc.calendar.utoronto.ca/specialist-co-operative-program-computer-science-information-systems-stream-science-scspe0455c"
   },
   "SCSPE0506": {
@@ -4292,7 +4300,7 @@
    "level": "SPECIALIST",
    "name": "COMPUTER SCIENCE",
    "section": "SCIENCE",
-   "stream": "Comprehensive",
+   "stream": "COMPREHENSIVE",
    "url": "https://utsc.calendar.utoronto.ca/specialist-program-computer-science-comprehensive-stream-science-scspe0510"
   },
   "SCSPE0510C": {
@@ -4313,7 +4321,7 @@
    "level": "SPECIALIST",
    "name": "COMPUTER SCIENCE",
    "section": "SCIENCE",
-   "stream": "Comprehensive",
+   "stream": "COMPREHENSIVE",
    "url": "https://utsc.calendar.utoronto.ca/specialist-co-operative-program-computer-science-comprehensive-stream-science-scspe0510c"
   },
   "SCSPE0652": {
@@ -4452,7 +4460,7 @@
    "level": "SPECIALIST",
    "name": "COMPUTER SCIENCE",
    "section": "SCIENCE",
-   "stream": "Software Engineering",
+   "stream": "SOFTWARE ENGINEERING",
    "url": "https://utsc.calendar.utoronto.ca/specialist-program-computer-science-software-engineering-stream-science-scspe0795"
   },
   "SCSPE0795C": {
@@ -4473,7 +4481,7 @@
    "level": "SPECIALIST",
    "name": "COMPUTER SCIENCE",
    "section": "SCIENCE",
-   "stream": "Software Engineering",
+   "stream": "SOFTWARE ENGINEERING",
    "url": "https://utsc.calendar.utoronto.ca/specialist-co-operative-program-computer-science-software-engineering-stream-science-scspe0795c"
   },
   "SCSPE0805": {
@@ -4560,7 +4568,7 @@
    "level": "SPECIALIST",
    "name": "COMPUTER SCIENCE",
    "section": "SCIENCE",
-   "stream": "Entrepreneurship",
+   "stream": "ENTREPRENEURSHIP",
    "url": "https://utsc.calendar.utoronto.ca/specialist-program-computer-science-entrepreneurship-stream-science-scspe0805"
   },
   "SCSPE0805C": {
@@ -4581,7 +4589,7 @@
    "level": "SPECIALIST",
    "name": "COMPUTER SCIENCE",
    "section": "SCIENCE",
-   "stream": "Entrepreneurship",
+   "stream": "ENTREPRENEURSHIP",
    "url": "https://utsc.calendar.utoronto.ca/specialist-co-operative-program-computer-science-entrepreneurship-stream-science-scspe0805c"
   },
   "SCSPE1013": {
@@ -4692,6 +4700,8 @@
    "coop": true,
    "courses": [
     "BIOA11H3",
+    "BIOA11H3",
+    "MATA02H3",
     "MATA02H3",
     "COPB50H3",
     "COPB51H3",
@@ -5305,7 +5315,7 @@
    "level": "SPECIALIST",
    "name": "MATHEMATICS",
    "section": "SCIENCE",
-   "stream": "Teaching",
+   "stream": "TEACHING",
    "url": "https://utsc.calendar.utoronto.ca/specialist-program-mathematics-teaching-stream-science-scspe11653"
   },
   "SCSPE11655": {
@@ -5377,7 +5387,7 @@
    "level": "SPECIALIST",
    "name": "MATHEMATICS",
    "section": "SCIENCE",
-   "stream": "Statistics",
+   "stream": "STATISTICS",
    "url": "https://utsc.calendar.utoronto.ca/specialist-program-mathematics-statistics-stream-science-scspe11655"
   },
   "SCSPE11655M": {
@@ -5414,7 +5424,7 @@
    "level": "SPECIALIST",
    "name": "MATHEMATICS",
    "section": "SCIENCE",
-   "stream": "Statistics",
+   "stream": "STATISTICS",
    "url": "https://utsc.calendar.utoronto.ca/specialist-co-operative-program-mathematics-statistics-stream-science-scspe11655m"
   },
   "SCSPE11659": {
@@ -5489,7 +5499,7 @@
    "level": "SPECIALIST",
    "name": "MATHEMATICS",
    "section": "SCIENCE",
-   "stream": "Comprehensive",
+   "stream": "COMPREHENSIVE",
    "url": "https://utsc.calendar.utoronto.ca/specialist-program-mathematics-comprehensive-stream-science-scspe11659"
   },
   "SCSPE1165U": {
@@ -5526,7 +5536,7 @@
    "level": "SPECIALIST",
    "name": "MATHEMATICS",
    "section": "SCIENCE",
-   "stream": "Comprehensive",
+   "stream": "COMPREHENSIVE",
    "url": "https://utsc.calendar.utoronto.ca/specialist-co-operative-program-mathematics-comprehensive-stream-science-scspe1165u"
   },
   "SCSPE1166T": {
@@ -5563,7 +5573,7 @@
    "level": "SPECIALIST",
    "name": "MATHEMATICS",
    "section": "SCIENCE",
-   "stream": "Teaching",
+   "stream": "TEACHING",
    "url": "https://utsc.calendar.utoronto.ca/specialist-co-operative-program-mathematics-teaching-stream-science-scspe1166t"
   },
   "SCSPE1172": {
@@ -5661,7 +5671,7 @@
    "level": "SPECIALIST",
    "name": "NEUROSCIENCE",
    "section": "SCIENCE",
-   "stream": "Cognitive",
+   "stream": "COGNITIVE",
    "url": "https://utsc.calendar.utoronto.ca/specialist-program-neuroscience-cognitive-stream-science-scspe1172"
   },
   "SCSPE1172C": {
@@ -5784,7 +5794,7 @@
    "level": "SPECIALIST",
    "name": "NEUROSCIENCE",
    "section": "SCIENCE",
-   "stream": "Cognitive",
+   "stream": "COGNITIVE",
    "url": "https://utsc.calendar.utoronto.ca/specialist-co-operative-program-neuroscience-cognitive-stream-science-scspe1172c"
   },
   "SCSPE1203": {
@@ -6113,7 +6123,7 @@
    "level": "SPECIALIST",
    "name": "NEUROSCIENCE",
    "section": "SCIENCE",
-   "stream": "Cellular/Molecular",
+   "stream": "CELLULAR/MOLECULAR",
    "url": "https://utsc.calendar.utoronto.ca/specialist-program-neuroscience-cellularmolecular-stream-science-scspe1272"
   },
   "SCSPE1272C": {
@@ -6241,7 +6251,7 @@
    "level": "SPECIALIST",
    "name": "NEUROSCIENCE",
    "section": "SCIENCE",
-   "stream": "Cellular/Molecular",
+   "stream": "CELLULAR/MOLECULAR",
    "url": "https://utsc.calendar.utoronto.ca/specialist-co-operative-program-neuroscience-cellularmolecular-stream-science-scspe1272c"
   },
   "SCSPE1332": {
@@ -6389,7 +6399,7 @@
    "level": "SPECIALIST",
    "name": "NEUROSCIENCE",
    "section": "SCIENCE",
-   "stream": "Systems/Behavioural",
+   "stream": "SYSTEMS/BEHAVIOURAL",
    "url": "https://utsc.calendar.utoronto.ca/specialist-program-neuroscience-systemsbehavioural-stream-science-scspe1372"
   },
   "SCSPE1372C": {
@@ -6516,7 +6526,7 @@
    "level": "SPECIALIST",
    "name": "NEUROSCIENCE",
    "section": "SCIENCE",
-   "stream": "Systems/Behavioural",
+   "stream": "SYSTEMS/BEHAVIOURAL",
    "url": "https://utsc.calendar.utoronto.ca/specialist-co-operative-program-neuroscience-systemsbehavioural-stream-science-scspe1372c"
   },
   "SCSPE1376": {
@@ -6762,6 +6772,8 @@
     "ANTC04H3",
     "ANTD32H3",
     "ANTA01H3",
+    "ANTA01H3",
+    "ANTA02H3",
     "ANTA02H3",
     "COPB50H3",
     "COPB51H3",
@@ -7059,7 +7071,7 @@
    "level": "SPECIALIST",
    "name": "STATISTICS",
    "section": "SCIENCE",
-   "stream": "Statistical Science",
+   "stream": "STATISTICAL SCIENCE",
    "url": "https://utsc.calendar.utoronto.ca/specialist-program-statistics-statistical-science-stream-science-scspe2279f"
   },
   "SCSPE2279Y": {
@@ -7083,7 +7095,7 @@
    "level": "SPECIALIST",
    "name": "STATISTICS",
    "section": "SCIENCE",
-   "stream": "Statistical Science",
+   "stream": "STATISTICAL SCIENCE",
    "url": "https://utsc.calendar.utoronto.ca/specialist-co-operative-program-statistics-statistical-science-stream-science-scspe2279y"
   },
   "SCSPE2289F": {
@@ -7171,7 +7183,7 @@
    "level": "SPECIALIST",
    "name": "STATISTICS",
    "section": "SCIENCE",
-   "stream": "Quantitative Finance",
+   "stream": "QUANTITATIVE FINANCE",
    "url": "https://utsc.calendar.utoronto.ca/specialist-program-statistics-quantitative-finance-stream-science-scspe2289f"
   },
   "SCSPE2289Y": {
@@ -7195,7 +7207,7 @@
    "level": "SPECIALIST",
    "name": "STATISTICS",
    "section": "SCIENCE",
-   "stream": "Statistical Machine Learning and Data Science",
+   "stream": "STATISTICAL MACHINE LEARNING AND DATA SCIENCE",
    "url": "https://utsc.calendar.utoronto.ca/specialist-co-operative-program-statistics-statistical-machine-learning-and-data-science-stream"
   },
   "SCSPE2289Z": {
@@ -7273,7 +7285,7 @@
    "level": "SPECIALIST",
    "name": "STATISTICS",
    "section": "SCIENCE",
-   "stream": "Statistical Machine Learning and Data Science",
+   "stream": "STATISTICAL MACHINE LEARNING AND DATA SCIENCE",
    "url": "https://utsc.calendar.utoronto.ca/specialist-program-statistics-statistical-machine-learning-and-data-science-stream-science"
   },
   "SCSPE2299T": {
@@ -7297,7 +7309,7 @@
    "level": "SPECIALIST",
    "name": "STATISTICS",
    "section": "SCIENCE",
-   "stream": "Quantitative Finance",
+   "stream": "QUANTITATIVE FINANCE",
    "url": "https://utsc.calendar.utoronto.ca/specialist-co-operative-program-statistics-quantitative-finance-stream-science-scspe2299t"
   },
   "SCSPE24313": {
@@ -7677,7 +7689,7 @@
    "level": "SPECIALIST",
    "name": "STRATEGIC MANAGEMENT",
    "section": "BACHELOR OF BUSINESS ADMINISTRATION",
-   "stream": "Management Strategy",
+   "stream": "MANAGEMENT STRATEGY",
    "url": "https://utsc.calendar.utoronto.ca/specialist-program-strategic-management-management-strategy-stream-bachelor-business-administration"
   },
   "SCSPE2432A": {
@@ -8174,18 +8186,20 @@
     "MATA37H3",
     "MGTA38H3",
     "MGHA12H3",
-    "mgma01H3",
+    "MGMA01H3",
     "MGTA38H3",
     "MATA29H3",
-    "mata31H3",
-    "mata37H3",
+    "MATA31H3",
+    "MATA35H3",
+    "MATA36H3",
+    "MATA37H3",
     "COPB11H3",
     "COPB12H3"
    ],
    "level": "SPECIALIST",
    "name": "STRATEGIC MANAGEMENT",
    "section": "BACHELOR OF BUSINESS ADMINISTRATION",
-   "stream": "Management Strategy",
+   "stream": "MANAGEMENT STRATEGY",
    "url": "https://utsc.calendar.utoronto.ca/specialist-co-operative-program-strategic-management-management-strategy-stream-bachelor-business"
   },
   "SCSPE2432Q": {
@@ -8260,7 +8274,7 @@
    "level": "SPECIALIST",
    "name": "STRATEGIC MANAGEMENT",
    "section": "BACHELOR OF BUSINESS ADMINISTRATION",
-   "stream": "Entrepreneurship",
+   "stream": "ENTREPRENEURSHIP",
    "url": "https://utsc.calendar.utoronto.ca/specialist-program-strategic-management-entrepreneurship-stream-bachelor-business-administration"
   },
   "SCSPE2432R": {
@@ -8285,18 +8299,20 @@
     "MATA37H3",
     "MGTA38H3",
     "MGHA12H3",
-    "mgma01H3",
+    "MGMA01H3",
     "MGTA38H3",
     "MATA29H3",
-    "mata31H3",
-    "mata37H3",
+    "MATA31H3",
+    "MATA35H3",
+    "MATA36H3",
+    "MATA37H3",
     "COPB11H3",
     "COPB12H3"
    ],
    "level": "SPECIALIST",
    "name": "STRATEGIC MANAGEMENT",
    "section": "BACHELOR OF BUSINESS ADMINISTRATION",
-   "stream": "Entrepreneurship",
+   "stream": "ENTREPRENEURSHIP",
    "url": "https://utsc.calendar.utoronto.ca/specialist-co-operative-program-strategic-management-entrepreneurship-stream-bachelor-business"
   },
   "SCSPE2540": {
@@ -28083,43 +28099,6 @@
     "HISD46H3"
    ],
    "url": "https://utsc.calendar.utoronto.ca/course/WSTD46H3"
-  },
-  "mata31H3": {
-   "breadth": "Quantitative Reasoning",
-   "description": "A conceptual introduction to Differential Calculus of algebraic and transcendental functions of one variable; focus on logical reasoning and fundamental notions; first introduction into a rigorous mathematical theory with applications. Course covers: real numbers, set operations, supremum, infimum, limits, continuity, Intermediate Value Theorem, derivative, differentiability, related rates, Fermat's, Extreme Value, Rolle's and Mean Value Theorems, curve sketching, optimization, and antiderivatives. ",
-   "exclusions": [],
-   "name": "Calculus I for Mathematical Sciences",
-   "offered": true,
-   "prereqs": [],
-   "prereqs_str": "Grade 12 Calculus and Vectors",
-   "sameas": [],
-   "url": "https://utsc.calendar.utoronto.ca/course/mata31H3"
-  },
-  "mata37H3": {
-   "breadth": "Quantitative Reasoning",
-   "description": "A rigorous introduction to Integral Calculus of one variable and infinite series; strong emphasis on combining theory and applications; further developing of tools for mathematical analysis. Riemann Sum, definite integral, Fundamental Theorem of Calculus, techniques of integration, improper integrals, numerical integration, sequences and series, absolute and conditional convergence of series, convergence tests for series, Taylor polynomials and series, power series and applications.",
-   "exclusions": [
-    "MATA31H3"
-   ],
-   "name": "Calculus II for Mathematical Sciences",
-   "offered": true,
-   "prereqs": [
-    "MATA31H3"
-   ],
-   "prereqs_str": "MATA31H3 and [MATA67H3 or CSCA67H3]",
-   "sameas": [],
-   "url": "https://utsc.calendar.utoronto.ca/course/mata37H3"
-  },
-  "mgma01H3": {
-   "breadth": "Social and Behavioural Sciences",
-   "description": "An introduction to basic concepts and tools of marketing designed to provide students with a conceptual framework for the analysis of marketing problems. The topics include an examination of buyer behaviour, market segmentation; the basic elements of the marketing mix. Enrolment is limited to students registered in Programs requiring this course. This course includes work-integrated-learning components, and satisfies the WIL requirement of the BBA degree.",
-   "exclusions": [],
-   "name": "Principles of Marketing",
-   "offered": true,
-   "prereqs": [],
-   "prereqs_str": "Enrolment in any Bachelor of Business Administration (BBA) program.",
-   "sameas": [],
-   "url": "https://utsc.calendar.utoronto.ca/course/mgma01H3"
   }
  }
 ]

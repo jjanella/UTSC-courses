@@ -71,7 +71,7 @@ def new_program(url: str, programs: list[Program], courses: list[Course]):
 
     program.url = url
     
-    title = soup.h1.get_text().replace(u'\xa0', u' ').replace("\n", "").split(" ")
+    title = soup.h1.get_text().upper().replace(u'\xa0', u' ').replace("\n", "").split(" ")
 
 
 
@@ -124,6 +124,7 @@ def is_code(s: str) -> bool:
         
 
 def new_course(code: str, courses: list[Course]) -> Course:
+    code = code.upper()
     if not is_code(code) :
         return None
     # Handle if course already exists
