@@ -1,3 +1,5 @@
+#!/usr/bin/python 
+
 from bs4 import BeautifulSoup
 import requests
 import re
@@ -8,10 +10,15 @@ class Course:
     code: str
     desc: str
     url: str
-    sameas: list = []
-    prereqs: list = []
-    def __init__(self, code: str, courses: list):
-        scrape_course(self, code, courses)
+    offered: bool = True
+    sameas: list
+    prereqs: list
+    prereqs_str: str = ""
+    excl: list
+    breadth: str
+    def __init__(self):
+        pass
+        
         
 
 class Program:
@@ -22,6 +29,8 @@ class Program:
     level: str
     stream: str = ""
     courses: list[Course] = []
+    def __init__(self):
+        pass
 
 
 def get_soup(url: str):
@@ -66,67 +75,75 @@ def scrape_program(program: Program, courses: list[Course]):
     program.code = code[code.find(" - ") + 3:code.find("</")]
     print("Scraping Program " + program.code + " " + program.name + " " + program.level)
 
-    soup = soup.find_all("a", href=re.compile("\/course\/"))
+    soup = soup.find_all("a", href=re.compile("/course/"))
 
     for i in range(len(soup)):
         soup[i] = str(soup[i])
-        code = soup[i][soup[i].find("/course/") + 8: soup[i].find("\">") - 2]
+        code = soup[i][soup[i].find("/course/") + 8: soup[i].find("\">") - 0]
 
+        new_course(code, courses)
 
-        add = True
-        for course in courses:
-            if (course.code == code):
-                add = False
-                program.courses.append(course)
-                print("Already found " + code)
-                break
+def is_code(s: str) -> bool:
+    return len(s) == 8 and s[4:6].isdigit() and s[:4].isalpha() and s.endswith("H3")
         
-        if add:
-            try:
-                course = Course(code, courses)
-                program.courses.append(course)
-                courses.append(course)
-            except:
-                print("Error Scraping " + code + ", Probably no longer exists")
 
-
-
-def scrape_course(course: Course, code: str, courses: list[Course]):
+def new_course(code: str, courses: list[Course]) -> Course:
+    if not is_code(code):
+        return None
+    # Handle if course already exists
+    for course in courses:
+        if course.code == code:
+            return course
+        
+    # Create a new course
+    course = Course()
     course.code = code
-    course.url = "https://utsc.calendar.utoronto.ca/course/" + code + "H3"
+    courses.append(course)
+    url = "https://utsc.calendar.utoronto.ca/course/" + code
 
+    soup = BeautifulSoup(requests.get(url).content, "html.parser").find(role="main")
 
+    if "Sorry" in str(soup):
+        course.name = code
+        course.offered = False
+        return course
 
-    site = requests.get(course.url)
-    soup = BeautifulSoup(site.content, 'html.parser')
-
-    title = str(soup.find_all("h1", class_="page-title"))
-    course.name = title[title.find(":" ) + 1: title.find("</")]
-    if "Sorry" in title:
-        raise()
-    print("Found Course " + course.code + " " + course.name)
-
-    reqs = str(soup.find_all('div', class_=['w3-bar-item field__item'])[0])
-
-    while reqs.find("<") != -1:
-        start = reqs.index("<")
-        end = reqs.index(">")
-        reqs = reqs[0:start] + reqs[end+1:]
+    course.url = url
+    course.name = soup.h1.string[10:]
+    course.desc = soup.p.get_text()
     
-    reqs = reqs.removesuffix(" and [CGPA 3.5 or enrolment in a CSC Subject POSt]")
+    course.prereqs = []
+    course.prereqs_str = soup.find(class_="field--name-field-prerequisite")
+    if course.prereqs_str != None:
+        course.prereqs_str = course.prereqs_str.get_text().strip().replace("\n", "")[12:]
 
-    reqs = reqs.replace("or", "and")
-    reqs = reqs.replace("[", "")
-    reqs = reqs.replace("]", "")
-    reqs = reqs.replace("H3", "")
-    reqs = reqs.split(" and ")
-    for i in range(len(reqs) - 1, -1, -1):
-        if len(reqs[i]) != 6 or reqs[i].find("(") != -1:
-            reqs.pop(i)
+        for c in course.prereqs_str.replace("s and V", "s And V").replace(" and ", "$").replace(" or ", "$").split("$"):
+            new = new_course(c.upper(), courses)
+            if new != None:
+                course.prereqs.append(new)
     
-    for req in reqs:
-        course.prereqs.append(Course(req, courses))
-
+    course.excl = []
+    s = soup.find(class_="field--name-field-exclusion")
+    if (s != None):
+        for c in s.get_text().strip().replace("\n", "")[9:].replace(",", "").split(" "):
+            new = new_course(c.upper(), courses)
+            if new != None:
+                course.excl.append(new)
+    
+    course.sameas = []
+    for c in soup.p.find_all("a"):
+        new = new_course(c.get_text().strip().upper(), courses)
+        if new != None:
+            course.sameas.append(new)
+    
+    s = soup.find(class_="field--name-field-breadth-requirements")
+    if s != None:
+        course.breadth = s.get_text().strip().replace("\n", " ").removeprefix("Breadth Requirements").strip()
+    
+    print(course.code)
+    print(course.excl)
+    return course
+    
 
 
 
