@@ -4,28 +4,30 @@ from bs4 import BeautifulSoup
 import requests
 import re
 from enum import Enum
+from datetime import datetime
+import json
 
 class Course:
-    name: str
-    code: str
-    desc: str
-    url: str
+    name: str = ""
+    code: str = ""
+    desc: str = ""
+    url: str = ""
     offered: bool = True
     sameas: list
     prereqs: list
     prereqs_str: str = ""
     excl: list
-    breadth: str
+    breadth: str = ""
         
 
 class Program:
-    name: str
-    code: str
-    coop: bool
-    url: str
-    level: str
+    name: str = ""
+    code: str = ""
+    coop: bool = False
+    url: str = ""
+    level: str = ""
     stream: str = ""
-    courses: list[Course] = []
+    courses: list[Course]
     section: str = ""
     
 
@@ -37,40 +39,42 @@ def get_soup(url: str):
 
 
 def scrape_programs(programs: list[Program], courses: list[Course]) -> list[Program]:
+    print("0 courses found from 0 programs")
     # Find all sections and programs
-    soup = get_soup("https://www.utsc.utoronto.ca/registrar/unlimited-and-limited-programs")
-    soup = soup.find_all("a", href=re.compile("https://utsc.calendar.utoronto.ca/"))
-    for i in range(len(soup)):
-        soup[i] = str(soup[i])
-        title = soup[i][soup[i].find(">") + 1:-4]
-        if title.count("-") > 1:
-            prog = Program()
-            prog.url = soup[i][soup[i].find("href=") + 6:soup[i].find(">") - 1]
+    soup = get_soup("https://www.utsc.utoronto.ca/registrar/unlimited-and-limited-programs").find("div", class_="clearfix text-formatted field field--name-body field--type-text-with-summary field--label-hidden field__item").find_all("tr")
+    for tr in soup:
+        a = str(tr.find("a"))
+        url = a[a.find("href=") + 6:a.find(">") - 1]
+        if "-program-" in url:
+            new_program(url, programs, courses)
+
+    # soup = soup.find_all("a", href=re.compile("https://utsc.calendar.utoronto.ca/"))
+    # for i in range(len(soup)):
+    #     soup[i] = str(soup[i])
+    #     title = soup[i][soup[i].find(">") + 1:-4]
+    #     if title.count("-") > 1:
+    #         url = soup[i][soup[i].find("href=") + 6:soup[i].find(">") - 1]
+    #         new_program(url, programs, courses)
             
-            programs.append(prog)
-    
-    for program in programs:
-        try:
-            scrape_program(program, courses)
-        except:
-            programs.remove(program)
     
 
 
 
-def scrape_program(program: Program, courses: list[Course]):
-    program.courses = []
-    soup = get_soup(program.url)
-    code = str(soup.find_all("h1", class_="page-title"))
-    program.code = code[code.find(" - ") + 3:code.find("</")]
 
-    title = str(soup.find("span", string = re.compile("PROGRAM")))
-    title = title[6:-7]
-    title = title.replace(u'\xa0', u' ')
-    if " - " not in title:
-        raise()
+def new_program(url: str, programs: list[Program], courses: list[Course]):
+    soup = get_soup(url).find(role="main")
+    if soup == None or soup.h1 == None or soup.h1.get_text().strip() == "Page not found" or soup.h1.get_text().strip() == "Program Search" or "DOUBLE" in soup.h1.get_text().strip().upper():
+        return None
+    
+    program = Program()
+    programs.append(program)
 
-    title = title.split(" ")
+    program.url = url
+    
+    title = soup.h1.get_text().replace(u'\xa0', u' ').replace("\n", "").split(" ")
+
+
+
     program.level = title[0]
     title.pop(0)
     program.code = title[-1]
@@ -105,13 +109,14 @@ def scrape_program(program: Program, courses: list[Course]):
 
     soup = soup.find_all("a", href=re.compile("/course/"))
 
-
+    program.courses = []
 
     for i in range(len(soup)):
         soup[i] = str(soup[i])
         code = soup[i][soup[i].find("/course/") + 8: soup[i].find("\">") - 0]
-
-        program.courses.append(new_course(code, courses))
+        new = new_course(code, courses)
+        if new != None:
+            program.courses.append(new)
     
 
 def is_code(s: str) -> bool:
@@ -119,25 +124,23 @@ def is_code(s: str) -> bool:
         
 
 def new_course(code: str, courses: list[Course]) -> Course:
-    if not is_code(code):
+    if not is_code(code) :
         return None
     # Handle if course already exists
     for course in courses:
         if course.code == code:
             return course
+    
+    url = "https://utsc.calendar.utoronto.ca/course/" + code
+    soup = BeautifulSoup(requests.get(url).content, "html.parser").find(role="main")
+    if "Sorry" in str(soup.h1):
+        return None
         
     # Create a new course
     course = Course()
     course.code = code
     courses.append(course)
-    url = "https://utsc.calendar.utoronto.ca/course/" + code
-
-    soup = BeautifulSoup(requests.get(url).content, "html.parser").find(role="main")
-
-    if "Sorry" in str(soup):
-        course.name = code
-        course.offered = False
-        return course
+    print("\033[F" + str(len(courses)) + " courses found from " +str(len(programs)) + " programs") 
 
     course.url = url
     course.name = soup.h1.string[10:]
@@ -172,14 +175,53 @@ def new_course(code: str, courses: list[Course]) -> Course:
         course.breadth = s.get_text().strip().replace("\n", " ").removeprefix("Breadth Requirements").strip()
     
     return course
-    
 
+
+def save_data(courses: list, programs: list, fname: str):
+    pdata = {}
+    for p in programs:
+        pdata[p.code] = {}
+        pdata[p.code]["name"] = p.name
+        pdata[p.code]["coop"] = p.coop
+        pdata[p.code]["url"] = p.url
+        pdata[p.code]["level"] = p.level
+        pdata[p.code]["stream"] = p.stream
+        pdata[p.code]["section"] = p.section
+        pdata[p.code]["courses"] = []
+        for c in p.courses:
+            pdata[p.code]["courses"].append(c.code)
+
+    cdata = {}
+    for c in courses:
+        print(c.code)
+        cdata[c.code] = {}
+        cdata[c.code]["name"] = c.name
+        cdata[c.code]["description"] = c.desc
+        cdata[c.code]["prereqs_str"] = c.prereqs_str
+        cdata[c.code]["breadth"] = c.breadth
+        cdata[c.code]["url"] = c.url
+        cdata[c.code]["offered"] = c.offered
+        cdata[c.code]["sameas"] = []
+        for s in c.sameas:
+            cdata[c.code]["sameas"].append(s.code)
+        cdata[c.code]["prereqs"] = []
+        for p in c.prereqs:
+            cdata[c.code]["prereqs"].append(p.code)
+        cdata[c.code]["exclusions"] = []
+        for e in c.prereqs:
+            cdata[c.code]["exclusions"].append(e.code)
+
+    with open(fname, "w") as fp:
+        json.dump([datetime.today().strftime('%Y-%m-%d'), pdata, cdata], fp, sort_keys=True, indent=1)
 
 
 if __name__ == "__main__":
-    # print(Course("BIOA11", []).prereqs)
     programs: list[Program] = []
     courses: list[Course] = []
     scrape_programs(programs, courses)
+    save_data(courses, programs, "data.txt")
+
+    
+        
 
 
