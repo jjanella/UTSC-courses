@@ -16,6 +16,7 @@ class Course:
     sameas: list
     prereqs: list
     prereqs_str: str = ""
+    postreqs: list
     excl: list
     breadth: str = ""
         
@@ -142,6 +143,7 @@ def new_course(code: str, courses: list[Course]) -> Course:
     course.code = code
     courses.append(course)
     print("\033[F" + str(len(courses)) + " courses found from " +str(len(programs)) + " programs") 
+    course.postreqs = []
 
     course.url = url
     course.name = soup.h1.string[10:]
@@ -156,7 +158,8 @@ def new_course(code: str, courses: list[Course]) -> Course:
             new = new_course(c.upper(), courses)
             if new != None:
                 course.prereqs.append(new)
-    
+                new.postreqs.append(course)
+       
     course.excl = []
     s = soup.find(class_="field--name-field-exclusion")
     if (s != None):
@@ -211,6 +214,9 @@ def save_data(courses: list, programs: list, fname: str):
         cdata[c.code]["exclusions"] = []
         for e in c.prereqs:
             cdata[c.code]["exclusions"].append(e.code)
+        cdata[c.code]["postreqs"] = []
+        for p in c.postreqs:
+            cdata[c.code]["postreqs"].append(p.code)
 
     with open(fname, "w") as fp:
         json.dump([datetime.today().strftime('%Y-%m-%d'), pdata, cdata], fp, sort_keys=True, indent=1)

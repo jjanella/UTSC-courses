@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://dkx3o18ul2irl"]
+
+[ext_resource type="Script" uid="uid://chpavknp1wb2j" path="res://graph.gd" id="1_41hjn"]
+[ext_resource type="Script" uid="uid://c4103wgvqwxpr" path="res://camera.gd" id="2_2637j"]
+
+[sub_resource type="Environment" id="Environment_2637j"]
+ambient_light_color = Color(1, 1, 1, 1)
+
+[node name="Graph" type="Node3D"]
+script = ExtResource("1_41hjn")
+
+[node name="Camera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
+environment = SubResource("Environment_2637j")
+current = true
+script = ExtResource("2_2637j")

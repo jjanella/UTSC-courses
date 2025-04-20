@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=3 uid="uid://di702cu5sehhx"]
+
+[ext_resource type="Script" uid="uid://d3uksshme27hg" path="res://node.gd" id="1_sy5k4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sy5k4"]
+albedo_color = Color(1, 0.027451, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_sy5k4"]
+material = SubResource("StandardMaterial3D_sy5k4")
+
+[node name="Node" type="RigidBody3D"]
+script = ExtResource("1_sy5k4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_sy5k4")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+visible = false
+offset_right = 512.0
+offset_bottom = 512.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+render_target_update_mode = 0
+
+[node name="Panel" type="Panel" parent="SubViewportContainer/SubViewport"]
+offset_right = 493.0
+offset_bottom = 180.0
+size_flags_vertical = 10
+
+[node name="LblCodeName" type="LinkButton" parent="SubViewportContainer/SubViewport/Panel"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 6.0
+offset_top = 5.0
+offset_right = -6.0
+offset_bottom = 29.0
+grow_horizontal = 2
+text = "Code - Name (Offered)"
+
+[node name="LblDesc" type="Label" parent="SubViewportContainer/SubViewport/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 6.0
+offset_top = 35.0
+offset_right = 2.0
+offset_bottom = -12.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 11
+text = "Description"
+autowrap_mode = 2
