@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3x0bgk7iuvam"]
+
+[ext_resource type="Script" uid="uid://cjho6m2tdsfg" path="res://edge.gd" id="1_fxce1"]
+
+[sub_resource type="ImmediateMesh" id="ImmediateMesh_wt4uh"]
+
+[node name="Edge" type="MeshInstance3D"]
+mesh = SubResource("ImmediateMesh_wt4uh")
+script = ExtResource("1_fxce1")

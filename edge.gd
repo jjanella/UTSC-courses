@@ -1,0 +1,1 @@
+class_name Edge extends MeshInstance3D
