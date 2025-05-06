@@ -11,4 +11,4 @@ func _input(event: InputEvent) -> void:
 		get_parent().rotate_y(-event.screen_relative.x / 100)
 		#get_parent().rotate(position.cross(get_parent().rotation), event.screen_relative.y / 100)
 		
-		get_parent().rotate(global_position.cross(Vector3.UP).normalized(), event.screen_relative.y / 100)
+		get_parent().rotate((global_position - get_parent().global_position).cross(Vector3.UP).normalized(), event.screen_relative.y / 100)

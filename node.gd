@@ -10,20 +10,29 @@ func init(code, courses_data):
 	name = code
 	course_data = courses_data[code]
 	match code[3]:
-		'A': target_radius = 1
-		'B': target_radius = 2
-		'C': target_radius = 3
-		'D': target_radius = 4
-		_:   error_string("Unsupported coursecode " + code)
-	target_radius *= 10
-	position = Vector3(randf_range(-1, 1), randf_range(-1, 1), randf_range(-1, 1))
+		'A': 
+			target_radius = 1
+			$MeshInstance3D.mesh.material.albedo_color = Color(1, 0, 0)
+		'B':
+			target_radius = 2
+			$MeshInstance3D.mesh.material.albedo_color = Color(0, 1, 0)
+		'C':
+			target_radius = 3
+			$MeshInstance3D.mesh.material.albedo_color = Color(0, 0, 1)
+		'D':
+			target_radius = 4
+			$MeshInstance3D.mesh.material.albedo_color = Color(0.5, 0.5, 1)
+		_:
+			error_string("Unsupported coursecode " + code)
+	target_radius *= 20
+	position = Vector3(randf_range(0, 1) + (height * 10), randf_range(0, 1), randf_range(0, 1))
 	#
 	#var r = RegEx.new()
 	#r.compile("[a-zA-Z]{3}[ABCD] + 0.1)\\d\\dH3")
 	#for res in r.search_all(str(["prereqs_str"])):
 		#print(res.get_string())
 	#
-	$SubViewport/Panel/LblCodeName.text = code + " - " + course_data["name"]
+	$Label.text = code + " - " + course_data["name"]
 	#if course_data["offered"] == false:
 		#$Panel/LblCodeName.text += " (Not Offered)"
 	#
@@ -40,40 +49,41 @@ func set_height(new_height: int):
 		for post in course_data["postreqs"]:
 			Data.nodes[post].set_height(height + 1)
 
-func _physics_process(_delta: float) -> void:
-	$Panel.look_at(get_node("/root/Graph/Rig/Camera").global_position, Vector3.UP, true)
-	linear_velocity = linear_velocity.slerp(Vector3.ZERO, 0.2)
+func force_target_radius(strength: int):
 	var target_position = position.normalized() * target_radius
 	var dist = position.distance_to(target_position)
 	var dir = position.direction_to(target_position)
-	var force = (dir * sign(dist) / (dist * dist)).inverse()
-	
+	var force = (dir * sign(dist) / (dist * dist * strength)).inverse()
 	apply_central_force(force)
-	
+
+func force_repel_nodes(strength: int):
 	for n: CourseNode in get_parent().get_children().filter(func(child): return child is CourseNode and child != self):
-		force = n.position.direction_to(position) * 1 / (pow(n.position.distance_to(position), 2))
+		var force = n.position.direction_to(position) * strength / (pow(n.position.distance_to(position), 2))
 		apply_central_force(force)
-	
+
+func force_attract_edges(strength: int):
 	for pre in course_data["prereqs"]:
 		pre = Data.nodes[pre]
 		if pre.is_inside_tree():
-			force = (position.direction_to(pre.position) * 1000 / (pow(pre.position.distance_to(position), 2))).inverse()
+			var force = (position.direction_to(pre.position) / (strength * pow(pre.position.distance_to(position), 2))).inverse()
 			apply_central_force(force)
 	
 	for post in course_data["postreqs"]:
 		post = Data.nodes[post]
 		if post.is_inside_tree():
-			force = (position.direction_to(post.position) * 1000 / (pow(post.position.distance_to(position), 2))).inverse()
+			var force = (position.direction_to(post.position) / (strength * pow(post.position.distance_to(position), 2))).inverse()
 			apply_central_force(force)
+
+
+func _physics_process(_delta: float) -> void:
+	linear_velocity = linear_velocity.slerp(Vector3.ZERO, 0.99)
+	force_target_radius(0.1)
+	force_repel_nodes(10)
+	#force_attract_edges(0.5)
 	
-	#apply_central_force(Vector3.UP)
 	
-	#print(name, linear_velocity, position)
-	
-	#linear_velocity = Vector3.UP
-	
-	
-	
+	if position.length() > 1000:
+		position = Vector3(0, randf_range(0, 1), randf_range(0, 1))
 
 
 
@@ -87,3 +97,8 @@ func _physics_process(_delta: float) -> void:
 								#"prereqs_str": "[ANTB19H3 and ANTB20H3] or [1.0 credit at the B-level in WST courses]",
 								#"sameas": [],
 								#"url": "https://utsc.calendar.utoronto.ca/course/ANTC14H3" }
+
+
+func _on_input_event(_camera: Node, event: InputEvent, _event_position: Vector3, _normal: Vector3, _shape_idx: int) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.is_pressed():
+		get_node("/root/Graph/Rig").global_position = global_position

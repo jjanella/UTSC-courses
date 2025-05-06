@@ -1,23 +1,33 @@
-[gd_scene load_steps=5 format=3 uid="uid://di702cu5sehhx"]
+[gd_scene load_steps=6 format=3 uid="uid://di702cu5sehhx"]
 
 [ext_resource type="Script" uid="uid://d3uksshme27hg" path="res://node.gd" id="1_sy5k4"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sy5k4"]
-albedo_color = Color(1, 0.027451, 0, 1)
+resource_local_to_scene = true
 
 [sub_resource type="SphereMesh" id="SphereMesh_sy5k4"]
+resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_sy5k4")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_sy5k4"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_sy5k4"]
 viewport_path = NodePath("SubViewport")
 
 [node name="Node" type="RigidBody3D"]
+collision_mask = 0
 script = ExtResource("1_sy5k4")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("SphereMesh_sy5k4")
 
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_sy5k4")
+
 [node name="Panel" type="Sprite3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00282276, 0.990896, 0.000123143)
+visible = false
+pixel_size = 0.003
 texture = SubResource("ViewportTexture_sy5k4")
 
 [node name="SubViewport" type="SubViewport" parent="."]
@@ -53,3 +63,11 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 11
 text = "Description"
 autowrap_mode = 2
+
+[node name="Label" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.65356, 0)
+pixel_size = 0.02
+text = "Code - Name (Offered)"
+autowrap_mode = 2
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]

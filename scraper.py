@@ -154,7 +154,7 @@ def new_course(code: str, courses: list[Course]) -> Course:
     if course.prereqs_str != None:
         course.prereqs_str = course.prereqs_str.get_text().strip().replace("\n", "")[12:]
 
-        for c in course.prereqs_str.replace("s and V", "s And V").replace(" and ", "$").replace(" or ", "$").split("$"):
+        for c in course.prereqs_str.replace("s and V", "s And V").replace(" and ", "$").replace(" or ", "$").replace("[", "").replace("]", "").replace("(", "").replace(")", "").split("$"):
             new = new_course(c.upper(), courses)
             if new != None:
                 course.prereqs.append(new)
